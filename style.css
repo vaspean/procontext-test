@@ -1,0 +1,165 @@
+ul {
+  list-style: none;
+}
+
+.container {
+  margin: 5px 10px;
+  padding: 30px;
+  display: flex;
+  justify-content: space-between;
+  border: 1px black solid;
+}
+
+.input, .output {
+  width: 40%;
+  border: 1px black solid;
+}
+
+.input {
+  padding: 40px 120px 40px 40px;
+}
+
+.output {
+  padding: 40px 15px;
+}
+
+.lists {
+  margin-top: 0;
+  padding-left: 10px;
+}
+
+.list {
+  position: relative;
+  margin-bottom: 15px;
+}
+
+/* CHECKBOX */
+label {
+  display: flex;
+  align-items: center;
+}
+
+.visible_checkbox{
+  position: relative;
+  width: 15px;
+  height: 15px;
+  border: 1px solid black;
+  margin-right: 15px;
+}
+
+input[type="checkbox"] {
+  display: none;
+  position: absolute;
+}
+
+.checkbox__checkmark, .checkbox__point {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  font-size: 18px;
+  width: 15px;
+  height: 15px;
+}
+
+.checkbox__checkmark {
+  top: 16%;
+  left: 52%;
+  display: none;
+}
+
+.checkbox__point {
+  top: 18%;
+  left: 74%;
+  font-size: 22px;
+}
+
+label input:checked ~ .visible_checkbox .checkbox__checkmark{
+  display: block;
+}
+
+.checkbox__title {
+  padding-top: 2px;
+}
+
+/*  */
+.item__group {
+  padding-left: 32px;
+}
+
+.item {
+  margin: 10px 0px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.btn_opengroup {
+  position: absolute;
+  left: -47px;
+  top: -2px;
+  width: 43px;
+  height: 25px;
+  cursor: pointer;
+  background-color: unset;
+  border: none;
+}
+
+.btn_opengroup span {
+  font-size: 22px;
+}
+
+input[type="number"] {
+  width: 30px;
+}
+
+input[type="color"] {
+  padding: 0;
+  height: 30px;
+  width: 30px;
+  top: -20%;
+  left: 50%;
+  background-color: unset;
+  border: none;
+}
+
+.item__params {
+  position: relative;
+  padding-right: 50px;
+}
+
+.color__picker {
+  position: absolute;
+}
+
+.info {
+  padding: 10px;
+  border: 1px black solid;
+}
+
+.info__group {
+  margin: 0;
+  padding: 0;
+}
+
+.info__list {
+  margin-bottom: 20px;
+}
+
+.colors {
+  margin-top: 10px;
+}
+
+.colors__group {
+  padding: 0;
+}
+
+.colors__item {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.colors__item div{
+  margin-right: 8px;
+  margin-bottom: 10px;
+  height: 20px;
+  width: 20px;
+  border: 1px rgba(0, 0, 0, 0.145) solid;
+}

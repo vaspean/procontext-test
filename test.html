@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Test</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.12/vue.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+  <div class="container">
+    <div class="input">
+      <ul class="lists">
+        <li class="list" v-for="(list, listIndex) in reformedLists" :key="listIndex">
+          <label :for="listIndex" @click="listToggle(list)">
+            <input type="checkbox" name="list__checkbox" class="list__checkbox" :id="listIndex" v-model="list.selected">
+            <div class="visible_checkbox">
+              <span v-if="list.selected" class="checkbox__checkmark">&#10003;</span>
+              <span v-if="isAnyItemSelected(list.items) && notAllItemsSelected(list.items) && !list.checked" class="checkbox__point">&#8226;</span>
+            </div>
+            <span class="checkbox__title">{{ list.name }}</span>
+          </label>
+          <button class="btn_opengroup" @click="openList(listIndex)"><span v-if="!openedLists.includes(listIndex)">&#62;</span><span v-else>&#709;</span></button>
+          <ul class="item__group" v-show="openedLists.includes(listIndex)">
+            <li class="item" v-for="(item, itemIndex) in list.items" :key="`item_${listIndex}_${itemIndex}`">
+              <label :for="`item_${listIndex}_${itemIndex}`" @click="itemToggle(list, item)">
+                <input type="checkbox" name="item__checkbox" class="item__checkbox" :id="`item_${listIndex}_${itemIndex}`" v-model="item.selected">
+                <div class="visible_checkbox">
+                  <span class="checkbox__checkmark" v-if="list.selected || item.selected">&#10003;</span>
+                </div>
+              <span class="checkbox__title">{{ item.name }}</span>
+            </label> 
+            <div class="item__params">
+              <input type="number" name="" id="" v-model="item.count" min="0">
+              <input class="color__picker" type="color" name="" id="" v-model="item.color">
+            </div>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+    <div class="output">
+        <ul class="info__group">
+          <li class="info__list" v-for="list in reformedLists">
+            <div class="info">
+              {{ list.name }}
+              <div class="colors">
+                <ul class="colors__group">
+                  <li v-show="item.selected || list.selected" class="colors__item" v-for="item in list.items">
+                    <div :style="{'background-color':item.color}" v-for="block in +item.count" @click="item.count--"></div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </li>
+        </ul>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  new Vue({
+    el: '#app',
+    data () {
+      return {
+        lists: [
+          {
+            name: "List 1",
+            items: [
+              {
+                name: "Item 1",
+                color: "#1774A2",
+                count: 18,
+              },
+              {
+                name: "Item 2",
+                color: "#DEB55B",
+                count: 24,
+              },
+              {
+                name: "Item 3",
+                color: "#83FF43",
+                count: 4,
+              },
+              {
+                name: "Item 4",
+                color: "#D7E750",
+                count: 24,
+              },
+            ],
+          },
+          {
+            name: "List 2",
+            items: [
+              {
+                name: "Item 1",
+                color: "#99747C",
+                count: 27,
+              },
+              {
+                name: "Item 2",
+                color: "#2D1F7D",
+                count: 8,
+              },
+              {
+                name: "Item 3",
+                color: "#269530",
+                count: 3,
+              },
+              {
+                name: "Item 4",
+                color: "#ADF458",
+                count: 11,
+              },
+              {
+                name: "Item 5",
+                color: "#D12260",
+                count: 12,
+              },
+            ],
+          },
+          {
+            name: "List 3",
+            items: [
+              {
+                name: "Item 1",
+                color: "#E8B3E9",
+                count: 10,
+              },
+              {
+                name: "Item 2",
+                color: "#D60C2C",
+                count: 13,
+              },
+              {
+                name: "Item 3",
+                color: "#8813DC",
+                count: 20,
+              },
+              {
+                name: "Item 4",
+                color: "#6DEFD5",
+                count: 20,
+              },
+              {
+                name: "Item 5",
+                color: "#ED74D5",
+                count: 10,
+              },
+              {
+                name: "Item 6",
+                color: "#9BF133",
+                count: 30,
+              },
+            ],
+          },
+        ],
+        openedLists: [],
+        listCheckboxFlag: true,
+      };
+    },
+    computed: {
+      reformedLists() {
+        let itemsSelected = this.lists;
+          itemsSelected.forEach(list => {
+            this.$set(list, `selected`, true);
+            list.items.forEach(item => {
+              this.$set(item, `selected`, true);
+            });
+          });
+        return itemsSelected
+      },
+    },
+    methods: {
+      openList(indexList) {
+        this.openedLists.includes(indexList) ? this.openedLists.splice(this.openedLists.indexOf(indexList), 1) : this.openedLists.push(indexList);
+      },
+      isAnyItemSelected(listItems) {
+        let selected = false;
+        for (item in listItems) {
+          if (listItems[item].selected) {
+            selected = true;
+          };
+        };
+        return selected
+      },
+      notAllItemsSelected(listItems) {
+        let notAllItemsSelected = false;
+        for (item of listItems) {
+          if (!item.selected) {
+            notAllItemsSelected = true;
+          };
+        };
+        return notAllItemsSelected;
+      }, 
+      listToggle(list) {
+        !list.selected ? list.items.forEach(item => item.selected = true) : list.items.forEach(item => item.selected = false);
+      },
+      itemToggle(list, itemOutside) {
+        list.selected && !this.notAllItemsSelected(list.items) ? list.selected = false : false;
+        function listCheckboxControl() {
+          let count = 0;
+          for (item of list.items) {
+            if (item.selected) {
+              count++;
+            };
+          };
+          if ((count == list.items.length-1) && !itemOutside.selected) {
+            list.selected = true;
+          };
+        };
+        listCheckboxControl();
+      },
+    },
+    created() {
+      for (list of this.lists) {
+        this.openedLists.push(this.lists.indexOf(list))
+      }; 
+    },
+  })
+</script>
+<style>
+</style>
+</body>
+</html>
